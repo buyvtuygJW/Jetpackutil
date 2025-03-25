@@ -57,6 +57,7 @@ import androidx.compose.ui.unit.sp
 /**Assume use androidx.compose.material3>1.2.1
  * */
 
+//base eg foss.utils.CustomText("This is the home screen")
 @Composable
 fun CustomText(
         text: String,
@@ -80,6 +81,46 @@ fun CustomText(
     )
 }
 
+/**
+eg call>
+foss.utils.CustomButton(onClickBtn = signUpViewModel::randomUserData) {
+                    CustomText("Use Random")
+                }
+*/
+@Composable
+fun CustomButton(
+        enabled: Boolean = true,
+        modifier: Modifier = Modifier,
+        colors: ButtonColors = ButtonDefaults.buttonColors(),
+        shape: Shape = MaterialTheme.shapes.small,
+        onClickBtn: () -> Unit,
+        content: @Composable RowScope.() -> Unit
+) {
+    Button(
+            enabled = enabled,
+            modifier = modifier,
+            colors = colors,
+            shape = shape,
+            onClick = onClickBtn,
+            content = content
+    )
+}
+
+/**
+eg api call>
+val formState by loginViewModel.formState.collectAsState()
+
+StyledOutlinedTextField(modifier = Modifier.fillMaxWidth(),
+                    textFieldError = formState.usernameError,
+                    value = formState.username,
+                    imgVec = Icons.Default.Person,
+                    onChange = loginViewModel::onUsernameChangeHandler,
+                    label = { CustomText("Username") },
+                    placeholder = { CustomText("Enter your Username") },
+                    emptyFieldHandler = {
+                        loginViewModel.onUsernameChangeHandler("")
+                    })
+*/
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StyledOutlinedTextField(
@@ -171,6 +212,16 @@ fun CustomExposedDropdownMenu(
     }
 }
 
+/**
+eg api call>
+PasswordTextField(
+                    textFieldError = formState.codeError,
+                    labelText = "Code",
+                    placeholderText = "Enter your Code",
+                    password = formState.code,
+                    onChangePassword = loginViewModel::onCodeChangeHandler
+                )
+*/
 @Composable
 fun PasswordTextField(
         labelText: String,
@@ -248,25 +299,19 @@ fun LoaderScreen() {
     ) { Loader(size = 60.dp) }
 }
 
-@Composable
-fun CustomButton(
-        enabled: Boolean = true,
-        modifier: Modifier = Modifier,
-        colors: ButtonColors = ButtonDefaults.buttonColors(),
-        shape: Shape = MaterialTheme.shapes.small,
-        onClickBtn: () -> Unit,
-        content: @Composable RowScope.() -> Unit
-) {
-    Button(
-            enabled = enabled,
-            modifier = modifier,
-            colors = colors,
-            shape = shape,
-            onClick = onClickBtn,
-            content = content
-    )
+/**
+pre>
+class loginViewModel{
+	fun onLoginHandler() {auth=true.....}	
 }
-
+core>
+LoaderButton(
+                    isLoading = isLoading,
+                    onClickBtn = { loginViewModel.onLoginHandler() }
+                ) {
+                    CustomText("Login", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                }
+*/
 @Composable
 fun LoaderButton(
         isLoading: Boolean,
@@ -288,3 +333,4 @@ fun LoaderButton(
         }
     }
 }
+
