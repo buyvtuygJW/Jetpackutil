@@ -1,5 +1,6 @@
-package com.example.mobile.core
+package foss.utils
 
+//old api imports,import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,8 +30,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -51,7 +52,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.mobile.R
+//import com.example.mobile.R //adapt to your project.
+
+/**Assume use androidx.compose.material3>1.2.1
+ * */
 
 @Composable
 fun CustomText(
@@ -105,11 +109,21 @@ fun StyledOutlinedTextField(
                 }
             },
             keyboardOptions = keyboardOpt,
+            /**
+             * //old api
             colors =
                     TextFieldDefaults.outlinedTextFieldColors(
                             focusedBorderColor = Color.Blue,
                             unfocusedBorderColor = Color.Gray
                     ),
+            */
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedTextColor = Color.Blue,
+                unfocusedTextColor = Color.Black,
+                focusedBorderColor = Color.Blue,
+                unfocusedBorderColor = Color.Black,
+                disabledBorderColor = Color.Gray,
+            ),
             isError = textFieldError != null,
     )
     if (textFieldError != null) {
@@ -178,12 +192,15 @@ fun PasswordTextField(
             singleLine = true,
             leadingIcon = { Icon(Icons.Default.Lock, contentDescription = "Lock icon") },
             trailingIcon = {
+                /**
+                 * //make sure import your project.R 1st then uncommment this part to enable.
                 val painterRes =
                         if (passwordVisible) painterResource(R.drawable.visibility_icon)
                         else painterResource(R.drawable.visibility_off_icon)
                 IconButton(onClick = { passwordVisible = !passwordVisible }) {
                     Icon(painterRes, contentDescription = "Toggle Password Visibility")
                 }
+                */
             },
             modifier = Modifier.fillMaxWidth(),
     )
